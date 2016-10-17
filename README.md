@@ -14,8 +14,8 @@ import Picker from 'picker';
 # Base Usage
 ```HTML
 <picker v-model="visible" :data-items="items" @change="onValuesChange">
-	<div class="top-content" slot="top-content">At the top of the content</div>
-	<div class="bottom-content" slot="bottom-content">At the bottom of the content</div>
+	<div class="top-content" slot="top-content">Top of the content.</div>
+	<div class="bottom-content" slot="bottom-content">Bottom of the content.</div>
 </picker>
 ```
 
@@ -32,6 +32,7 @@ export default {
 
   data() {
     return {
+      visible: true,
       items: [
         {
           values: ['2000', '2001', '2002', '2003', '2004', '2005', '2006', '2007'],
@@ -43,3 +44,26 @@ export default {
   }
 }
 ```
+
+# Options
+
+Picker Options:
+
+| Option | Description |
+| ----- | ----- |
+| v-model | Boolean(default: false) Picker show and hide. |
+| :data-items | Array(default: []) The configuration on the items. |
+| @change | Number(default: 5) Listening when data changes. |
+
+
+Picker Items Options:
+
+| Option | Description |
+| ----- | ----- |
+| index | item default index position. |
+| values | values of this item. |
+| width | The width of the item. The unit is % |
+
+
+
+
