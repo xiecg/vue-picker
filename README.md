@@ -8,5 +8,5 @@ npm install vue-3d-picker --save
 ```
 
 ```JavaScript
-import Picker from 'mint-picker';
+import Picker from 'picker';
 ```
