@@ -26,7 +26,7 @@ export default {
       let year = result[0], month = result[1];
       // result -> The selected data.
       // pickerEl -> The set of methods.
-      // reset -> Reset the item data.
+      // reset -> Reset the item data.  usage: reset(index, newData)
     }
   },
 
