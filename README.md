@@ -63,6 +63,7 @@ Picker Items Options:
 | index | item default index position. |
 | values | values of this item. |
 | width | The width of the item. The unit is %.|
+| name | If values is an object. set the displayed key . The default value is "value" .|
 
 
 
