@@ -53,7 +53,7 @@ Picker Options:
 | ----- | ----- |
 | v-model | Boolean(default: false) Picker show and hide. |
 | :data-items | Array(default: []) The configuration on the items. |
-| @change | Number(default: 5) Listening when data changes. |
+| @change | Function() Listening when data changes. |
 
 
 Picker Items Options:
@@ -62,7 +62,7 @@ Picker Items Options:
 | ----- | ----- |
 | index | item default index position. |
 | values | values of this item. |
-| width | The width of the item. The unit is % |
+| width | The width of the item. The unit is %.|
 
 
 
