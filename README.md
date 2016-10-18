@@ -8,7 +8,7 @@ npm install vue-3d-picker --save
 ```
 
 ```JavaScript
-import Picker from 'picker';
+import picker from 'vue-3d-picker';
 ```
 
 # Base Usage
@@ -24,9 +24,9 @@ export default {
   methods: {
     onValuesChange(result, pickerEl, reset) {
       let year = result[0], month = result[1];
-      // result -> The selected data
-      // pickerEl -> DOM ?
-      // reset -> Reset the data on the picker component ?
+      // result -> The selected data.
+      // pickerEl -> The set of methods.
+      // reset -> Reset the item data.
     }
   },
 
