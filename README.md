@@ -66,5 +66,3 @@ Picker Items Options:
 | name | If values is an object. set the displayed key . The default value is "value" .|
 
 
-
-
