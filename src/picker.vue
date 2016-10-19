@@ -230,8 +230,14 @@
 
 <script>
 
+	import Vue from 'vue';
+
+	import VueTouch from 'vue-touch';
+
 	import { EaseOutEasing, BounceEasing, MomentumEasing, BoundMomentumEasing } from './animation';
 
+	Vue.use(VueTouch);
+	
 	export default {
 
 		data () {
@@ -641,8 +647,8 @@
 									value = data[i];
 
 									this.$data.push(value);
-
-									htmlValue = value instanceof Object ? value.value : value;
+									
+									htmlValue = value instanceof Object ? value[this.dataKey] : value;
 
 									el.innerHTML = htmlValue === undefined ? '' : htmlValue;
 								} else {
@@ -701,20 +707,20 @@
 
 									if (value instanceof Object) {
 
-										if (itemValue.key === value.key && itemValue.value === value.value) {
+										if (itemValue.key === value.key && itemValue[el.dataKey] === value[el.dataKey]) {
 
 											break;
 										}
 									} else {
 
-										if (itemValue.key === value || itemValue.value === value) {
+										if (itemValue.key === value || itemValue[el.dataKey] === value) {
 
 											break;
 										}
 									}
 								} else {
 
-									if (itemValue === value || value.key || value.value) {
+									if (itemValue === value || value.key || value[el.dataKey]) {
 
 										break;
 									}
@@ -847,6 +853,8 @@
 
 					let index = n.index || 1,
 						values = n.values;
+
+					this.itemEl[i]['dataKey'] = n.name || 'value';
 
 					i = ++i;
 
