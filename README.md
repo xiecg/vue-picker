@@ -65,4 +65,12 @@ Picker Items Options:
 | width | The width of the item. The unit is %.|
 | name | If values is an object. set the displayed key . The default value is "value" .|
 
+# example
 
+```Bash
+
+npm init
+
+npm run dev
+
+```

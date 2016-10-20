@@ -4,12 +4,11 @@
   "author": "xiecg",
   "scripts": {
     "dev": "webpack-dev-server --open --inline --hot",
-    "start": "webpack-dev-server --inline --host 192.168.0.37",
     "build": "cross-env NODE_ENV=production webpack --progress --hide-modules"
   },
   "dependencies": {
     "vue": "^2.0.3",
-    "vue-3d-picker": "^1.0.2",
+    "vue-3d-picker": "^1.0.3",
     "vue-resource": "^1.0.3",
     "vue-router": "^2.0.0"
   },
