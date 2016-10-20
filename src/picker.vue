@@ -542,7 +542,7 @@
 				let result = [];
 
 				this.itemEl.forEach((n) => {
-
+					
 					result.push(n.value);
 				});
 
@@ -707,20 +707,20 @@
 
 									if (value instanceof Object) {
 
-										if (itemValue.key === value.key && itemValue[el.dataKey] === value[el.dataKey]) {
+										if (itemValue.$key === value.$key && itemValue[el.dataKey] === value[el.dataKey]) {
 
 											break;
 										}
 									} else {
 
-										if (itemValue.key === value || itemValue[el.dataKey] === value) {
+										if (itemValue.$key === value || itemValue[el.dataKey] === value) {
 
 											break;
 										}
 									}
 								} else {
 
-									if (itemValue === value || value.key || value[el.dataKey]) {
+									if (itemValue === value || value.$key || value[el.dataKey]) {
 
 										break;
 									}
@@ -738,7 +738,7 @@
 							this.bounceHelper.run();
 						},
 						get () {
-
+							
 							return this.data[currentIndex];
 						}
 					},
@@ -767,7 +767,7 @@
 								currentIndex = index;
 
 								self.$emit('change', self.getItemValue(), self.$el, self.reset);
-							}
+							};
 
 							el.scroll(el, value, oldValue);
 						},
@@ -802,6 +802,8 @@
 					
 					return result.slice(begin, end);
 				};
+
+				this.$emit('change', this.getItemValue(), this.$el, () => {});
 			},
 
 			locateToDefaultValue (el, index, data, targetValue, maxValue) {
@@ -843,7 +845,7 @@
 
 					n.values.map((n, i) => {
 
-						(n instanceof Object) && (n.key = (i+1));
+						(n instanceof Object) && (n.$key = (i+1));
 					});
 
 					if (!n.width) {

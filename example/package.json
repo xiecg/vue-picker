@@ -1,0 +1,33 @@
+{
+  "name": "vue-3d-picker",
+  "description": "vue-3d-picker",
+  "author": "xiecg",
+  "scripts": {
+    "dev": "webpack-dev-server --open --inline --hot",
+    "start": "webpack-dev-server --inline --host 192.168.0.37",
+    "build": "cross-env NODE_ENV=production webpack --progress --hide-modules"
+  },
+  "dependencies": {
+    "vue": "^2.0.3",
+    "vue-3d-picker": "^1.0.2",
+    "vue-resource": "^1.0.3",
+    "vue-router": "^2.0.0"
+  },
+  "devDependencies": {
+    "autoprefixer": "^6.5.1",
+    "autoprefixer-loader": "^2.0.0",
+    "babel-core": "^6.0.0",
+    "babel-loader": "^6.0.0",
+    "cross-env": "^3.0.0",
+    "css-loader": "^0.16.0",
+    "file-loader": "^0.9.0",
+    "node-sass": "^3.10.1",
+    "postcss-loader": "^1.0.0",
+    "sass-loader": "^3.2.0",
+    "style-loader": "^0.13.1",
+    "vue-loader": "^9.7.0",
+    "vue-style-loader": "^1.0.0",
+    "webpack": "2.1.0-beta.22",
+    "webpack-dev-server": "^1.14.0"
+  }
+}
