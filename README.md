@@ -8,8 +8,11 @@ npm install vue-3d-picker --save
 ```
 
 ```JavaScript
-import Vue from 'vue';
 import picker from 'vue-3d-picker';
+```
+
+Register component:
+```JavaScript
 Vue.component(picker.name, picker);
 ```
 
