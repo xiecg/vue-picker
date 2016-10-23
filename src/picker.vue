@@ -1,5 +1,5 @@
 
-<style lang="sass">
+<style scoped>
 
 @keyframes picker-close {
 
@@ -54,27 +54,20 @@
 }
 
 .picker-enter-active {
-
 	animation: picker-open-backdrop 0.3s ease-out;
-
-	.picker-wrapper {
-
-		animation: picker-open 0.3s ease;
-	}
+}
+.picker-enter-active .picker-wrapper {
+	animation: picker-open 0.3s ease;
 }
 
 .picker-leave-active {
-
 	animation: picker-close-backdrop 0.3s ease-out;
-
-	.picker-wrapper {
-
-		animation: picker-close 0.3s ease;
-	}
+}
+.picker-leave-active .picker-wrapper {
+	animation: picker-close 0.3s ease;
 }
 
 .picker-backdrop{
-
 	position: fixed;
 	left: 0;
 	top: 0;
@@ -85,119 +78,108 @@
 }
 
 .picker-wrapper{
-
 	position: absolute;
 	left: 0;
 	bottom: 0;
 	width: 100%;
 	background: transparent;
+	transform: translate3d(0px, 0px, 0px);
+}
 
-	.top-content, .bottom-content {
+.picker-wrapper .top-content, .picker-wrapper .bottom-content{
+	display: flex;
+	width: 100%;
+	background-color: #fff;
+	justify-content: center;
+}
 
-		display: flex;
-		width: 100%;
-		background-color: #fff;
-		justify-content: center;
-	}
+.picker-wrapper .picker-content {
+	position: relative;
+	width: 100%;
+	height: 216px;
+	background: white;
+}
 
-	.picker-content {
-		position: relative;
-		width: 100%;
-		height: 216px;
-		background: white;
-	}
+.picker-wrapper .picker-body{
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+}
 
-	.picker-body {
+.picker-flex-body .picker-item{
+	flex: 1;
+}
 
-		position: absolute;
-		width: 100%;
-		height: 100%;
-		display: flex;
-		flex-direction: row;
-		justify-content: center;
-	}
+.picker-wrapper .picker-helper{
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
 
-	.picker-flex-body{
+.picker-wrapper .picker-helper:before{
+	content: '';
+	width: 100%;
+	height: 38px;
+	border-top: 1px solid #adb0a7;
+	border-bottom: 1px solid #adb0a7;
+	display: flex;
+}
 
-		.picker-item{
+.picker-wrapper .picker-item {
+	font-size: 20px;
+	height: 100%;
+	position: relative;
+	overflow: hidden;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
 
-			flex: 1;
-		}
-	}
+.picker-item-container {
+	perspective: 1200px;
+	display: flex;
+	transform-style: preserve-3d;
+	perspective-origin: center center;
+	position: relative;
+	width: 100%;
+	height: 38px;
+	border-top: 1px solid #adb0a7;
+	border-bottom: 1px solid #adb0a7;
+}
 
-	.picker-helper{
+.picker-item-container>div{
+	position: absolute;
+	width: 100%;
+	height: 36px;
+	opacity: 0.3;
+	overflow: hidden;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	transform-origin: center center -110px;
+	backface-visibility: hidden;
+	-webkit-backface-visibility: hidden;
+}
 
-		position: absolute;
-		width: 100%;
-		height: 100%;
-		display: -webkit-box;
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-
-		&:before {
-			content: '';
-			width: 100%;
-			height: 38px;
-			border-top: 1px solid #adb0a7;
-			border-bottom: 1px solid #adb0a7;
-			display: flex;
-		}
-	}
-
-	.picker-item {
-
-		font-size: 20px;
-		height: 100%;
-		position: relative;
-		overflow: hidden;
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-
-		.picker-item-container {
-
-			perspective: 1200px;
-			display: flex;
-			transform-style: preserve-3d;
-			perspective-origin: center center;
-			position: relative;
-			width: 100%;
-			height: 38px;
-			border-top: 1px solid #adb0a7;
-			border-bottom: 1px solid #adb0a7;
-
-			>div{
-
-				position: absolute;
-				width: 100%;
-				height: 36px;
-				opacity: 0.3;
-				overflow: hidden;
-				display: flex;
-				flex-direction: row;
-				align-items: center;
-				justify-content: center;
-				transform-origin: center center -110px;
-				backface-visibility: hidden;
-				-webkit-backface-visibility: hidden;
-
-				&.scroller-is-current{
-
-					opacity: 1;
-				}
-			}
-		}
-	}
+.picker-item-container>div.scroller-is-current{
+	opacity: 1;
 }
 
 </style>
+
 
 <template>
 
 	<transition name="picker">
 
-		<div class="picker-backdrop" v-show="value" v-touch:tap="close">
+		<div class="picker-backdrop" v-show="value" @click="close">
 
 			<div class="picker-wrapper">
 
@@ -234,11 +216,13 @@
 
 	import VueTouch from 'vue-touch';
 
-	import { EaseOutEasing, BounceEasing, MomentumEasing, BoundMomentumEasing } from './animation';
+	import { EaseOutEasing, BounceEasing, MomentumEasing, BoundMomentumEasing } from './animation-es5';
 
 	Vue.use(VueTouch);
 	
 	export default {
+
+		name: 'picker',
 
 		data () {
 
@@ -265,7 +249,7 @@
 			close (...initialArgs) {
 
 				let e = initialArgs[0];
-				
+
 				if (e.target && e.target.classList.contains('picker-backdrop')) {
 
 					this.$emit('input', false);
