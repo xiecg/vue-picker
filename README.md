@@ -2,7 +2,7 @@
 
 # DEMO
 
-<img src="https://xiecg.github.io/other/vue-picker/demo.gif">
+<img src="http://ocm0knkb1.bkt.clouddn.com/demo.gif" width="300px">
 
 <img src="https://xiecg.github.io/other/vue-picker/code.png">
 

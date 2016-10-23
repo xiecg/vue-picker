@@ -1,5 +1,5 @@
 
-<style scoped>
+<style>
 
 @keyframes picker-close {
 
