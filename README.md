@@ -1,4 +1,5 @@
 [Postcss]: https://github.com/postcss/postcss-loader
+[Picker]: https://xiecg.github.io/2016/10/23/vue-picker/
 
 # Overview
 
@@ -94,3 +95,7 @@ npm run dev
 # prompt
 
 Need [Postcss] support
+
+# 中文
+
+[Picker]
