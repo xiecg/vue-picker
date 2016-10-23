@@ -84,8 +84,4 @@ npm run dev
 
 # prompt
 
-```Bash
-
 Need [Postcss] support
-
-```
