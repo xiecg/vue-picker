@@ -1,13 +1,13 @@
 [Postcss]: https://github.com/postcss/postcss-loader
 
+# Overview
+The picker component based on vue.js
+
 # DEMO
 
 <img src="http://ocm0knkb1.bkt.clouddn.com/demo.gif" width="300px">
 
 <img src="https://xiecg.github.io/other/vue-picker/code.png">
-
-# Overview
-The picker component based on vue.js
 
 # Install
 
