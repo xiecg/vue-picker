@@ -79,3 +79,11 @@ npm init
 npm run dev
 
 ```
+
+# prompt
+
+```Bash
+
+Need [postcss-loader][https://github.com/postcss/postcss-loader] support
+
+```
