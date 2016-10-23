@@ -72,12 +72,12 @@ Picker Options:
 
 Picker Items Options:
 
-| Option | Description |
-| ----- | ----- |
-| index | item default index position. |
-| values | values of this item. |
-| width | The width of the item. The unit is %.|
-| name | If values is an object. set the displayed key . The default value is "value" .|
+| Option | Description | Type | Default |
+| ----- | ----- | ----- | ----- |
+| index | item default index position. | Number | 0 | 
+| values | values of this item. | Array | [] |
+| width | The width of the item. The unit is %.| String | 'flex' |
+| name | If values is an object. set the displayed key.| String | 'value' |
 
 # example
 
