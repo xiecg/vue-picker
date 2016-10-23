@@ -1,3 +1,5 @@
+[Postcss]: https://github.com/postcss/postcss-loader
+
 # Overview
 The picker component based on vue.js
 
@@ -84,6 +86,6 @@ npm run dev
 
 ```Bash
 
-Need [postcss-loader][https://github.com/postcss/postcss-loader] support
+Need [Postcss] support
 
 ```
