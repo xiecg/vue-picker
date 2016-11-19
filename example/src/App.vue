@@ -26,7 +26,7 @@ export default {
 
 </script>
 
-<style>
+<style lang="sass">
 
   .view-wrapper ul {
 
