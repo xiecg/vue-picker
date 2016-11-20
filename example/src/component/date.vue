@@ -27,7 +27,7 @@ export default {
 
             var result = [],
                 i = thisYear,
-                end = thisYear+40;
+                end = thisYear+80;
 
             for(; i < end; i++) {
                 
@@ -129,7 +129,7 @@ export default {
                 pickerEl.value3 = maxDate;
             }
 
-            console.log(lastYear, lastMonth, lastDate, lastDesc);
+            // console.log(lastYear, lastMonth, lastDate, lastDesc);
         }
     }
 }
