@@ -84,21 +84,29 @@ export default {
 
         this.thisYear = thisYear;
 
+        // return {
+        //     dateItems: [{
+        //         name: 'value',
+        //         values: generateYearData(thisYear)
+        //     },{
+        //         name: 'name',
+        //         index: thisMonth,
+        //         values: months
+        //     },{
+        //         name: 'name',
+        //         index: thisDate,
+        //         values: dates
+        //     },{
+        //         index: thisHour < 12 ? 1 : 2,
+        //         values: dayDesc
+        //     }],
+        //     visible: false
+        // }
         return {
             dateItems: [{
-                name: 'value',
-                values: generateYearData(thisYear)
-            },{
                 name: 'name',
-                index: thisMonth,
-                values: months
-            },{
-                name: 'name',
-                index: thisDate,
+                index: 1 || thisDate,
                 values: dates
-            },{
-                index: thisHour < 12 ? 1 : 2,
-                values: dayDesc
             }],
             visible: false
         }

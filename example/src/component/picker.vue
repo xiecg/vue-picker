@@ -465,14 +465,14 @@
 							countHelper += countHelper < 0 ? 4 : 0;
 
 							Array.prototype.splice.apply(helperData, [5 * countHelper, 5].concat(data));
-
+							console.log(data)
 							el.data = helperData;
 
 							requestPoolData();
 						}
 
 					} else {
-
+						
 						if (value < baseScrollValue) {
 
 							if (firstTimeRequest) {
@@ -701,7 +701,7 @@
 						set (value) {
 
 							let oldValue = el.scrollValue, index = Math.round(value / 18) % 20;
-							
+
 							childEls.forEach((el, i) => {
 
 								el.style['transform'] = `translate3d(0, 0, -110px) rotateX(${(value - 18 * i)}deg)`;
