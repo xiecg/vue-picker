@@ -3,7 +3,7 @@
 
 # Overview
 
-The picker component based on vue.js
+The picker component based on vue.js #next
 
 # DEMO
 
