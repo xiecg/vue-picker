@@ -37,6 +37,9 @@ module.exports = {
             }
         }]
     },
+    postcss: function () {
+        return [require('postcss-salad')];
+    },
     vue: {
         loaders: {
             css: 'style!css!autoprefixer',
