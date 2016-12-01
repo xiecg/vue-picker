@@ -25,6 +25,7 @@
     "css-loader": "^0.16.0",
     "file-loader": "^0.9.0",
     "node-sass": "^3.10.1",
+    "postcss": "^5.2.6",
     "postcss-loader": "^1.0.0",
     "postcss-salad": "^1.0.5",
     "sass-loader": "^3.2.0",

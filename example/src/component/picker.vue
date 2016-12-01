@@ -22,75 +22,66 @@
 	100% { opacity: 1 }
 }
 
-@component-namespace componentName {
-	@component actionsheet {
-		background: red;
-	}
-}
-
-.text-test {
-	@utils-ellipsis 3;
-}
-
 .picker-enter-active {
 	animation: picker-open-backdrop 0.3s ease-out;
-}
-.picker-enter-active .picker-wrapper {
-	animation: picker-open 0.3s ease;
+	.picker-wrapper {
+		animation: picker-open 0.3s ease;
+	}
 }
 
 .picker-leave-active {
 	animation: picker-close-backdrop 0.3s ease-out;
-}
-.picker-leave-active .picker-wrapper {
-	animation: picker-close 0.3s ease;
-}
-
-.picker-backdrop{
-	position: fixed;
-	left: 0;
-	top: 0;
-	width: 100%;
-	height: 100%;
-	background: rgba(0, 0, 0, 0.5);
-	z-index: 999;
+	.picker-wrapper {
+		animation: picker-close 0.3s ease;
+	}
 }
 
-.picker-wrapper{
-	position: absolute;
-	left: 0;
-	bottom: 0;
-	width: 100%;
-	background: transparent;
-	transform: translate3d(0px, 0px, 0px);
+@component-namespace picker {
+	@component backdrop {
+		position: fixed;
+		left: 0;
+		top: 0;
+		width: 100%;
+		height: 100%;
+		background: rgba(0, 0, 0, 0.5);
+		z-index: 999;
+	}
+	@component wrapper {
+		position: absolute;
+		left: 0;
+		bottom: 0;
+		width: 100%;
+		background: transparent;
+		transform: translate3d(0px, 0px, 0px);
+	}
+	@component content {
+		position: relative;
+		width: 100%;
+		height: 216px;
+		background: white;
+	}
+	@component body {
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+	}
+	@comonent itme {
+		
+	}
 }
-
-.picker-wrapper .picker-content {
-	position: relative;
-	width: 100%;
-	height: 216px;
-	background: white;
-}
-
-.picker-wrapper .picker-body{
-	position: absolute;
-	width: 100%;
-	height: 100%;
-	display: flex;
-	flex-direction: row;
-	justify-content: center;
-}
-
 </style>
 
 <template>
 	<transition name="picker">
-		<div class="picker-backdrop text-test componentName-actionsheet" v-show="value" @click="close">
+		<div class="picker-backdrop" v-show="value" @click="close">
 			<div class="picker-wrapper">
 				<slot class="top-content" name="top-content"></slot>
 				<div class="picker-content">
 					<div class="picker-body">
-						body
+						<div class="picker-item" v-for="n in dataItems">1</div>
 					</div>
 					<!-- <div class="picker-helper" v-touch:panstart="onPanStart" v-touch:panmove="onPanMove" v-touch:panend="onPanEnd"></div> -->
 				</div>
@@ -113,8 +104,7 @@
 		data () {
 			return {
 				text : 'picker',
-				items : [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20],
-				propertyConfig : {},
+				items : [],
 				isFlex : true
 			}
 		},
@@ -148,8 +138,7 @@
 			}
 		},
 		watch: {
-			dataItems (result) {
-			}
+			dataItems (result) {}
 		},
 		mounted () {
 		}

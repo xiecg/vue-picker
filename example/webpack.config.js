@@ -43,6 +43,9 @@ module.exports = {
     vue: {
         loaders: {
             css: 'style!css!autoprefixer',
+        },
+        postcss: function () {
+            return [require('postcss-salad')];
         }
     },
     babel: {
