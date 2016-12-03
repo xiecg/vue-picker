@@ -10,16 +10,16 @@
 
 <script>
 	export default {
-		data () {
-			return {
-				last: 0,
-				lastTime: 0,
-				lastDis: 0,
-				lastTimeDis: 0,
-				startPageY: 0,
-				scrollValue: 0
-			}
-		},
+        data () {
+            return {
+                last: 0,
+                lastTime: 0,
+                lastDis: 0,
+                lastTimeDis: 0,
+                startPageY: 0,
+                scrollValue: 0
+            }
+        },
 		props: {
 			values: {
 				type: Array,
