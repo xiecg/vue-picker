@@ -38,11 +38,8 @@
 
 @component-namespace picker {
 	@component backdrop {
-		position: fixed;
-		left: 0;
-		top: 0;
-		width: 100%;
-		height: 100%;
+		position: fixed 0 * * 0;
+		size: 100%;
 		background: rgba(0, 0, 0, 0.5);
 		z-index: 999;
 	}
@@ -57,10 +54,11 @@
 	@component content {
 		position: relative;
 		width: 100%;
-		height: 216px;
+		height: 228px;
 		background: white;
 	}
 	@component body {
+		z-index: 1;
 		position: absolute;
 		width: 100%;
 		height: 100%;
@@ -68,8 +66,53 @@
 		flex-direction: row;
 		justify-content: center;
 	}
-	@comonent itme {
-		
+	@component item {
+		font-size: 20px;
+		height: 100%;
+		position: relative;
+		display: flex;
+		flex: 1;
+	}
+	@component helper {
+		position: absolute;
+		size: 100%;
+		display: flex;
+		justify-content: center;
+		flex-direction: column;
+		&:before {
+			content: '';
+			width: 100%;
+			height: 38px;
+			border-top: 1px solid #adb0a7;
+			border-bottom: 1px solid #adb0a7;
+			display: flex;
+		}
+	}
+	@component item-content {
+		width: 100%;
+		height: 36px;
+		position: absolute 96px * * 0px;
+		transform-style: preserve-3d;
+		transform-origin: center center -113.64752726415074px;
+		div {
+			width: 100%;
+			position: absolute 36px * * 0;
+			transform-origin: top;
+			transform-style: preserve-3d;
+			transform: rotateX(-18deg);
+		}
+		>div {
+			top: 0;
+			transform: rotateX(0deg);
+		}
+		span {
+			width: 100%;
+			height: 36px;
+			text-align: center;
+			display: block;
+			line-height: 36px;
+			backface-visibility: hidden;
+		}
 	}
 }
 </style>
@@ -81,9 +124,9 @@
 				<slot class="top-content" name="top-content"></slot>
 				<div class="picker-content">
 					<div class="picker-body">
-						<div class="picker-item" v-for="n in dataItems">1</div>
+						<picker-item v-for="item in dataItems" :values="item.$value" :count="item.values.length"></picker-item>
 					</div>
-					<!-- <div class="picker-helper" v-touch:panstart="onPanStart" v-touch:panmove="onPanMove" v-touch:panend="onPanEnd"></div> -->
+					<div class="picker-helper"></div>
 				</div>
 				<slot class="bottom-content" name="bottom-content"></slot>
 			</div>
@@ -99,8 +142,26 @@
 
 	Vue.use(VueTouch);
 	
+	Vue.directive('for-nested', {
+		bind (el, binding) {
+			// console.log(el, binding);
+			// console.log('new: %s, old: %s', 1, 2);
+			let value = binding.value;
+			let html = '';
+			for(let i = 0; i < 20; i++) {
+				let n = 19 - i;
+				let v = value[n] && value[n]['name'] || '';
+				html = `<div><span data-index="${n}">${v}</span>${html}</div>`;
+			};
+			el.innerHTML = html;
+		}
+	});
+
 	export default {
 		name: 'picker',
+		components: {
+			'picker-item': require('./picker-item.vue')
+		},
 		data () {
 			return {
 				text : 'picker',
@@ -117,30 +178,23 @@
 			}
 		},
 		methods : {
-
 			close (...initialArgs) {
-
 				let e = initialArgs[0];
-
 				if (e.target && e.target.classList.contains('picker-backdrop')) {
-
 					this.$emit('input', false);
 				}
-			},
-			onPanStart (...initialArgs) {
-				let e = initialArgs[0];
-			},
-			onPanMove (...initialArgs) {
-				let e = initialArgs[0];
-			},
-			onPanEnd (...initialArgs) {
-				let e = initialArgs[0];
 			}
 		},
 		watch: {
 			dataItems (result) {}
 		},
+		created () {
+			this.dataItems.forEach((n) => {
+				n.$value = n.values.slice(0, 15);
+			})
+		},
 		mounted () {
+
 		}
 	}
 </script>

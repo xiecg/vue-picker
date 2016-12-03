@@ -107,6 +107,12 @@ export default {
                 name: 'name',
                 index: 1 || thisDate,
                 values: dates
+            },{
+                values: [{
+                    name: '1'
+                },{
+                    name: '2'
+                }]
             }],
             visible: false
         }
