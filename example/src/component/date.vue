@@ -106,7 +106,8 @@ export default {
             dateItems: [{
                 name: 'name',
                 index: 1 || thisDate,
-                values: dates
+                values: dates,
+                $value: []
             },{
                 values: [{
                     name: '1'

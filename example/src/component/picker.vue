@@ -124,7 +124,7 @@
 				<slot class="top-content" name="top-content"></slot>
 				<div class="picker-content">
 					<div class="picker-body">
-						<picker-item v-for="item in dataItems" :values="item.$value" :count="item.values.length"></picker-item>
+						<picker-item v-for="item in dataItems" :all-values="item.values" :values="item.$value" :length="item.values.length - 1"></picker-item>
 					</div>
 					<div class="picker-helper"></div>
 				</div>
@@ -140,12 +140,12 @@
 
 	import VueTouch from 'vue-touch';
 
+	import pickerItem from './picker-item.vue';
+
 	Vue.use(VueTouch);
 	
 	Vue.directive('for-nested', {
 		bind (el, binding) {
-			// console.log(el, binding);
-			// console.log('new: %s, old: %s', 1, 2);
 			let value = binding.value;
 			let html = '';
 			for(let i = 0; i < 20; i++) {
@@ -154,19 +154,27 @@
 				html = `<div><span data-index="${n}">${v}</span>${html}</div>`;
 			};
 			el.innerHTML = html;
+		},
+		update (el, binding) {
+			let value = binding.value;
+			let spenEl = el.querySelectorAll('span');
+			let length = spenEl.length;
+
+			for(let i = 0; i < length; i++) {
+				spenEl[i].innerHTML = value[i] && value[i]['name'] || '';
+			};
 		}
 	});
 
 	export default {
 		name: 'picker',
 		components: {
-			'picker-item': require('./picker-item.vue')
+			'picker-item': pickerItem
 		},
 		data () {
 			return {
 				text : 'picker',
-				items : [],
-				isFlex : true
+				isFlex : true,
 			}
 		},
 		props: {
@@ -181,7 +189,7 @@
 			close (...initialArgs) {
 				let e = initialArgs[0];
 				if (e.target && e.target.classList.contains('picker-backdrop')) {
-					this.$emit('input', false);
+					// this.$emit('input', false);
 				}
 			}
 		},
@@ -191,7 +199,7 @@
 		created () {
 			this.dataItems.forEach((n) => {
 				n.$value = n.values.slice(0, 15);
-			})
+			});
 		},
 		mounted () {
 
