@@ -86,7 +86,7 @@ Picker Items Options:
 
 ```Bash
 
-npm init
+npm install
 
 npm run dev
 
