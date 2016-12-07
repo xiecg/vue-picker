@@ -3,7 +3,7 @@
 
 <template>
 	<div class="picker-item" v-touch:panstart="onPanStart" v-touch:panmove="onPanMove" v-touch:panend="onPanEnd">
-		<div :style="{ transform: 'rotateX('+ scrollValue +'deg)' }" class="picker-item-content" v-for-nested="currentValues"></div>
+		<div ref="pickerItemContent" :style="{ transform: 'rotateX('+ scrollValue +'deg)' }" class="picker-item-content" v-for-nested="currentValues"></div>
 	</div>
 </template>
 
@@ -106,7 +106,10 @@
 				animationLoop();
 			},
 			render (change) {
-				this.scrollValue = this.easeOut(this.current, this.beginning, change, this.duration);
+				let deg = this.easeOut(this.current, this.beginning, change, this.duration);
+				let oldDeg = this.scrollValue;
+				this.onScroll(deg, oldDeg);
+				this.scrollValue = deg;
 			},
 			easeOut (a, c, b, d) {
 				return -b * (a /= d) * (a - 2) + c;
@@ -122,6 +125,8 @@
 				}
 			},
 			onScroll (value, oldValue) {
+				
+				this.setAlpha(value);
 
 				let data, helperData, countHelper;
 
@@ -167,9 +172,19 @@
 						this.lastValues = this.currentValues;
 					}
 				}
+			},
+			setAlpha (deg) {
+				let spans = this.$refs.pickerItemContent.querySelectorAll('span');
+				deg = deg % 360;
+				deg = deg < 0 ? deg + 360 : deg;
+				for(var i = 0; i < spans.length; i++) {
+					var dis = Math.abs(i * 18 - deg);
+					spans[i].style.opacity = Math.abs(1 - dis / 18 * 0.1);
+				}
 			}
 		},
 		mounted () {
+			this.setAlpha(0);
 			this.lastValues = this.currentValues;
 		}
 	}
