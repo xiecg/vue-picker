@@ -124,7 +124,14 @@
 				<slot class="top-content" name="top-content"></slot>
 				<div class="picker-content">
 					<div class="picker-body">
-						<picker-item v-for="item in dataItems" :all-values="item.values" :values="item.$value" :length="item.values.length - 1"></picker-item>
+						<picker-item @change="onChangeValue" v-for="(item, index) in dataItems" 
+							:itemIndex="index" 
+							:index="item.index" 
+							:all-values="item.values" 
+							:values="item.$value" 
+							:length="item.values.length - 1" 
+							:keyName="item.key"
+							:style="[item.width, item.flex]"></picker-item>
 					</div>
 					<div class="picker-helper"></div>
 				</div>
@@ -146,23 +153,35 @@
 	
 	Vue.directive('for-nested', {
 		bind (el, binding) {
-			let value = binding.value;
+			let value = binding.value[0];
+			let key = binding.value[1];
 			let html = '';
 			for(let i = 0; i < 20; i++) {
 				let n = 19 - i;
-				let v = value[n] && value[n]['name'] || '';
-				html = `<div><span data-index="${n}">${v}</span>${html}</div>`;
-			};
+				let item = null;
+				if (typeof value[i] == 'string') {
+					item = value[n] || '';
+				} else {
+					item = value[n] && value[n][key] || '';
+				}
+				html = `<div><span data-index="${n}">${item}</span>${html}</div>`;
+			}
 			el.innerHTML = html;
 		},
 		update (el, binding) {
-			let value = binding.value;
+			let value = binding.value[0];
+			let key = binding.value[1];
 			let spenEl = el.querySelectorAll('span');
 			let length = spenEl.length;
-
 			for(let i = 0; i < length; i++) {
-				spenEl[i].innerHTML = value[i] && value[i]['name'] || '';
-			};
+				let item = null;
+				if (typeof value[i] == 'string') {
+					item = value[i] || '';
+				} else {
+					item = value[i] && value[i][key] || '';
+				}
+				spenEl[i].innerHTML = item;
+			}
 		}
 	});
 
@@ -173,8 +192,12 @@
 		},
 		data () {
 			return {
-				text : 'picker',
-				isFlex : true,
+				result: [],
+				flex: {
+					'-webkit-box-flex': 'initial',
+					'-ms-flex': 'initial',
+					'flex': 'initial'
+				}
 			}
 		},
 		props: {
@@ -189,15 +212,31 @@
 			close (...initialArgs) {
 				let e = initialArgs[0];
 				if (e.target && e.target.classList.contains('picker-backdrop')) {
-					// this.$emit('input', false);
+					this.$emit('input', false);
+				}
+			},
+			onChangeValue (itemIndex, result, isSend) {
+				if (isSend) {
+					this.result[itemIndex] = result;
+					this.$emit('change', [...this.result]);
+				} else {
+					this.result[itemIndex] = result;
 				}
 			}
 		},
 		watch: {
-			dataItems (result) {}
+			value (result) {
+				if (! result) return;
+				this.$emit('change', [...this.result]);
+			}
 		},
 		created () {
 			this.dataItems.forEach((n) => {
+				if (n.width) {
+					n.flex = this.flex;
+					n.width = { width: n.width }
+				}
+				n.key = n.name;
 				n.$value = n.values.slice(0, 15);
 			});
 		},

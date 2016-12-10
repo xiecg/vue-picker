@@ -3,7 +3,7 @@
 
 <template>
 	<div class="picker-item" v-touch:panstart="onPanStart" v-touch:panmove="onPanMove" v-touch:panend="onPanEnd">
-		<div ref="pickerItemContent" :style="{ transform: 'rotateX('+ scrollValue +'deg)' }" class="picker-item-content" v-for-nested="currentValues"></div>
+		<div ref="pickerItemContent" :style="{ transform: 'rotateX('+ scrollValue +'deg)' }" class="picker-item-content" v-for-nested="[currentValues, keyName]"></div>
 	</div>
 </template>
 
@@ -23,6 +23,17 @@
 			},
 			allValues: {
 				type: Array
+			},
+			index: {
+				type: Number,
+				default: 0
+			},
+			itemIndex: {
+				type: Number
+			},
+			keyName: {
+				type: String,
+				default: 'name'
 			}
 		},
 		data () {
@@ -37,7 +48,9 @@
 				poolData: [],
 				count: 0,
 				requestStart: 0,
-				lastValues: []
+				lastValues: [],
+				currentIndex: 0,
+				isSend: true
 			}
 		},
 		methods: {
@@ -55,6 +68,7 @@
 				let oldDeg = this.scrollValue;
 				this.onScroll(deg, oldDeg);
 				this.scrollValue = deg;
+				this.isSend = true;
 			},
 			onPanEnd (...initialArgs) {
 
@@ -78,7 +92,7 @@
 				dis = now * 18 - this.scrollValue;
 				dis = this.scrollValue + dis;
 
-				this.maxMomentumValue = this.length * 18
+				this.maxMomentumValue = this.length * 18;
 
 				let boundValue = null;
 
@@ -122,7 +136,6 @@
 					var data = this.allValues.slice((this.requestStart++) * 50, this.requestStart * 50), length = 0;
 					if (data instanceof Array) {
 						data = data.slice(0, 50);
-						// length = data.length;
 						this.poolData = this.poolData.concat(data);
 					}
 				}
@@ -130,6 +143,8 @@
 			onScroll (value, oldValue) {
 				
 				this.setAlpha(value);
+
+				this.currentIndex = Math.round(value / 18);
 
 				let data, helperData, countHelper;
 
@@ -193,71 +208,88 @@
 				let oldDeg = this.scrollValue;
 				this.onScroll(deg, oldDeg);
 				this.scrollValue = value;
+			},
+			initAnimation () {
+				this.boundMomentum = new BoundMomentumEasing;
+				this.boundMomentumIsEndedFn = this.boundMomentum.isEnded;
+				this.bounceHelper = new EaseOutEasing;
+				this.bounce = new EaseOutEasing;
+
+				let boundMomentum = this.boundMomentum;
+				let bounce = this.bounce;
+				let bounceHelper = this.bounceHelper;
+
+				boundMomentum.momentum.setConfig({
+					acceleration: 30,
+					friction: 1
+				});
+				boundMomentum.bounce.setConfig({
+					acceleration: 30
+				});
+				boundMomentum.setConfig({
+					minVelocity: 1,
+					minMomentumValue: 0,
+					callback: this.animationScrollValue
+				});
+
+				bounce.setConfig({
+					duration: 400,
+					callback: this.animationScrollValue
+				});
+				bounceHelper.setConfig({
+					duration: 400,
+					callback: this.animationScrollValue
+				});
+
+				boundMomentum.isEnded = () => {
+
+					let result = this.boundMomentumIsEndedFn.call(boundMomentum);
+					
+					if (! boundMomentum.isOutOfBound && result) {
+						animationScrollValueHelper();
+					}
+
+					return result;
+				}
+
+				let animationScrollValueHelper = () => {
+
+					let scrollValue = Math.round(this.scrollValue / 18);
+					let supplyValue = scrollValue * 18 - this.scrollValue;
+
+					bounceHelper.setConfig({
+						startTime: Date.now(),
+						startValue: this.scrollValue,
+						endValue: this.scrollValue + supplyValue
+					});
+
+					bounceHelper.run();
+				}
 			}
 		},
 		mounted () {
-			this.setAlpha(0);
-
 			this.lastValues = this.currentValues;
+			this.setAlpha(0);
+			this.initAnimation();
+			let defaultValue = this.index * 18;
 
-			this.boundMomentum = new BoundMomentumEasing;
-			this.boundMomentumIsEndedFn = this.boundMomentum.isEnded;
-			this.bounceHelper = new EaseOutEasing;
-			this.bounce = new EaseOutEasing;
-
-			let boundMomentum = this.boundMomentum;
-			let bounce = this.bounce;
-			let bounceHelper = this.bounceHelper;
-
-			boundMomentum.momentum.setConfig({
-				acceleration: 30,
-				friction: 1
-			});
-			boundMomentum.bounce.setConfig({
-				acceleration: 30
-			});
-			boundMomentum.setConfig({
-				minVelocity: 1,
-				minMomentumValue: 0,
-				callback: this.animationScrollValue
-			});
-
-			bounce.setConfig({
-				duration: 400,
-				callback: this.animationScrollValue
-			});
-			bounceHelper.setConfig({
-				duration: 400,
-				callback: this.animationScrollValue
-			});
-
-			boundMomentum.isEnded = () => {
-
-				let result = this.boundMomentumIsEndedFn.call(boundMomentum);
-				
-				if (! boundMomentum.isOutOfBound && result) {
-					animationScrollValueHelper();
-				}
-
-				return result;
+			if (! defaultValue) {
+				this.$emit('change', this.itemIndex, this.allValues[0], false);
+				return;
 			}
 
-			let animationScrollValueHelper = () => {
-				/*
-				let scrollValue = this.scrollValue, deltaValue = scrollValue % 18,
-					boundValue  = scrollValue - deltaValue + (deltaValue < 9 ? 0 : 18);
-				*/
-
-				let scrollValue = Math.round(this.scrollValue / 18);
-				let supplyValue = scrollValue * 18 - this.scrollValue;
-
-				bounceHelper.setConfig({
-					startTime: Date.now(),
-					startValue: this.scrollValue,
-					endValue: this.scrollValue + supplyValue
-				});
-
-				bounceHelper.run();
+			for(let i = 0; i <= defaultValue; i+=18) {
+				this.onScroll(i, this.scrollValue);
+				this.scrollValue = i;
+				this.isSend = false;
+			}
+		},
+		watch: {
+			currentIndex (newIndex, oldIndex) {
+				let result = this.allValues[newIndex];
+				if (result) {
+					this.$emit('change', this.itemIndex, result, this.isSend);
+				}
 			}
 		}
 	}

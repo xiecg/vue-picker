@@ -84,39 +84,39 @@ export default {
 
         this.thisYear = thisYear;
 
-        // return {
-        //     dateItems: [{
-        //         name: 'value',
-        //         values: generateYearData(thisYear)
-        //     },{
-        //         name: 'name',
-        //         index: thisMonth,
-        //         values: months
-        //     },{
-        //         name: 'name',
-        //         index: thisDate,
-        //         values: dates
-        //     },{
-        //         index: thisHour < 12 ? 1 : 2,
-        //         values: dayDesc
-        //     }],
-        //     visible: false
-        // }
         return {
             dateItems: [{
-                name: 'name',
-                index: 1 || thisDate,
-                values: dates,
-                $value: []
+                name: 'value',
+                values: generateYearData(thisYear)
             },{
-                values: [{
-                    name: '1'
-                },{
-                    name: '2'
-                }]
+                name: 'name',
+                index: thisMonth - 1,
+                values: months
+            },{
+                index: thisDate - 1,
+                values: dates
+            },{
+                index: thisHour < 12 ? 0 : 1,
+                values: dayDesc
             }],
             visible: false
         }
+        // return {
+        //     dateItems: [{
+        //         name: 'name',
+        //         // width: '80%',
+        //         index: thisDate - 1,
+        //         values: dates
+        //     },{
+        //         // width: '20%',
+        //         values: [{
+        //             name: '1'
+        //         },{
+        //             name: '2'
+        //         }]
+        //     }],
+        //     visible: false
+        // }
     },
 
     mounted () {},
@@ -128,8 +128,9 @@ export default {
             return (new Date(new Date(year, month + 1, 1) - 1)).getDate();
         },
 
-        onDateValuesChange (result, pickerEl, reset) {
-
+        onDateValuesChange (result) {
+            console.log('user ----->', result)
+            return;
             let year = result[0], month = result[1], date = result[2], desc = result[3];
 
             let lastYear = parseInt(year ? year.value : this.thisYear);
