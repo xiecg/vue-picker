@@ -9,11 +9,7 @@
 
 <script>
 
-	if (!('requestAnimationFrame' in window)) {
-
-		window.requestAnimationFrame = window.webkitRequestAnimationFrame;
-		window.cancelAnimationFrame = window.webkitCancelAnimationFrame || window.webkitCancelRequestAnimationFrame;
-	}
+	import { EaseOutEasing, BounceEasing, MomentumEasing, BoundMomentumEasing } from './animation';
 
 	export default {
 		props: {
@@ -35,10 +31,6 @@
 				startPageY: 0,
 				scrollValue: 0,
 				maxVelocity: 6,
-				current: 0,
-				beginning: false,
-				duration: 20,
-				timer: 0,
 				currentValues: this.values,
 				baseScrollValue: 0,
 				firstTimeRequest: true,
@@ -50,10 +42,12 @@
 		},
 		methods: {
 			onPanStart (...initialArgs) {
-				cancelAnimationFrame(this.timer);
 				let e = initialArgs[0];
 				this.startPageY = e.changedPointers[0].pageY;
 				this.startValue = this.scrollValue;
+				this.bounceHelper.stop();
+				this.bounce.stop();
+				this.boundMomentum.stop();
 			},
 			onPanMove (...initialArgs) {
 				let e = initialArgs[0];
@@ -61,16 +55,8 @@
 				let oldDeg = this.scrollValue;
 				this.onScroll(deg, oldDeg);
 				this.scrollValue = deg;
-				/*
-				if (deg < -18*3) {
-					this.onPanEnd(e);
-				} else if (deg > 18*(this.length+3)) {
-					this.onPanEnd(e);
-				}
-				*/
 			},
 			onPanEnd (...initialArgs) {
-				cancelAnimationFrame(this.timer);
 
 				let e = initialArgs[0];
 				let maxVelocity = this.maxVelocity;
@@ -90,29 +76,46 @@
 				now = now < 0 ? 0 : now;
 				now = now > this.length ? this.length : now;
 				dis = now * 18 - this.scrollValue;
+				dis = this.scrollValue + dis;
 
-				this.beginning = this.scrollValue;
+				this.maxMomentumValue = this.length * 18
 
-				let animationLoop = () => {
-					this.render(dis);
-					this.timer = requestAnimationFrame(animationLoop);
-					this.current ++;
-					if (this.duration < this.current) {
-						cancelAnimationFrame(this.timer);
-						this.current = 0;
-						this.beginning = false;
-					}
+				let boundValue = null;
+
+				if (this.scrollValue < 0) {
+
+					boundValue = 0;
+				} else if (this.scrollValue >= this.maxMomentumValue) {
+
+					boundValue = this.maxMomentumValue;
 				}
-				animationLoop();
-			},
-			render (change) {
-				let deg = this.easeOut(this.current, this.beginning, change, this.duration);
-				let oldDeg = this.scrollValue;
-				this.onScroll(deg, oldDeg);
-				this.scrollValue = deg;
-			},
-			easeOut (a, c, b, d) {
-				return -b * (a /= d) * (a - 2) + c;
+
+				if (boundValue !== null) {
+
+					this.bounce.setConfig({
+						startTime: Date.now(),
+						startValue: this.scrollValue,
+						endValue: boundValue
+					});
+
+					this.bounce.run();
+					return;
+				}
+
+				this.boundMomentum.momentum.setConfig({
+					startTime: Date.now(),
+					startValue: this.scrollValue,
+					startVelocity: velocity
+				});
+
+				this.boundMomentum.setConfig({
+					maxMomentumValue: this.maxMomentumValue,
+					startValue: this.scrollValue,
+					startVelocity: velocity,
+					callback: this.animationScrollValue
+				});
+
+				this.boundMomentum.run();
 			},
 			requestPoolData () {
 				if (this.count + 3 >= this.requestStart * 5) {
@@ -175,17 +178,87 @@
 			},
 			setAlpha (deg) {
 				let spans = this.$refs.pickerItemContent.querySelectorAll('span');
+				let index = Math.round(deg / 18) % 20;
 				deg = deg % 360;
 				deg = deg < 0 ? deg + 360 : deg;
-				for(var i = 0; i < spans.length; i++) {
-					var dis = Math.abs(i * 18 - deg);
-					spans[i].style.opacity = Math.abs(1 - dis / 18 * 0.1);
+				for(let i = 0; i < spans.length; i++) {
+					let dis = Math.abs(i * 18 - deg);
+					let n = Math.abs(1 - dis / 18 * 0.1);
+					spans[i].style.opacity = Math.abs(n - 0.5);
+					spans[index] && (spans[index].style.opacity = 1);
 				}
+			},
+			animationScrollValue (value, isEnd) {
+				let deg = value;
+				let oldDeg = this.scrollValue;
+				this.onScroll(deg, oldDeg);
+				this.scrollValue = value;
 			}
 		},
 		mounted () {
 			this.setAlpha(0);
+
 			this.lastValues = this.currentValues;
+
+			this.boundMomentum = new BoundMomentumEasing;
+			this.boundMomentumIsEndedFn = this.boundMomentum.isEnded;
+			this.bounceHelper = new EaseOutEasing;
+			this.bounce = new EaseOutEasing;
+
+			let boundMomentum = this.boundMomentum;
+			let bounce = this.bounce;
+			let bounceHelper = this.bounceHelper;
+
+			boundMomentum.momentum.setConfig({
+				acceleration: 30,
+				friction: 1
+			});
+			boundMomentum.bounce.setConfig({
+				acceleration: 30
+			});
+			boundMomentum.setConfig({
+				minVelocity: 1,
+				minMomentumValue: 0,
+				callback: this.animationScrollValue
+			});
+
+			bounce.setConfig({
+				duration: 400,
+				callback: this.animationScrollValue
+			});
+			bounceHelper.setConfig({
+				duration: 400,
+				callback: this.animationScrollValue
+			});
+
+			boundMomentum.isEnded = () => {
+
+				let result = this.boundMomentumIsEndedFn.call(boundMomentum);
+				
+				if (! boundMomentum.isOutOfBound && result) {
+					animationScrollValueHelper();
+				}
+
+				return result;
+			}
+
+			let animationScrollValueHelper = () => {
+				/*
+				let scrollValue = this.scrollValue, deltaValue = scrollValue % 18,
+					boundValue  = scrollValue - deltaValue + (deltaValue < 9 ? 0 : 18);
+				*/
+
+				let scrollValue = Math.round(this.scrollValue / 18);
+				let supplyValue = scrollValue * 18 - this.scrollValue;
+
+				bounceHelper.setConfig({
+					startTime: Date.now(),
+					startValue: this.scrollValue,
+					endValue: this.scrollValue + supplyValue
+				});
+
+				bounceHelper.run();
+			}
 		}
 	}
 </script>
