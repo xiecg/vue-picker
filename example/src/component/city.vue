@@ -49,18 +49,22 @@ export default {
         values: city[lastProvince]
       }];
 
-      window.citys = city;
+      this.citys = city;
 
-      window.lastProvince = lastProvince;
+      this.lastProvince = lastProvince;
     });
 
   },
   methods: {
     
-    onCityValuesChange (result, pickerEl, reset) {
+    onCityValuesChange (result) {
+      let province = result[0], city = result[1].name;
+      // console.log(province, city.name);
+      // console.log(this.citys[province]);
 
-      let province = result[0], city = result[1];
-      
+      this.cityItems[1].values = this.citys[province];
+      console.log(province, city);
+      /*
       let thisProvince = province ? province : lastProvince,
           thisCity = city ? city : citys[lastProvince][0];
 
@@ -72,6 +76,7 @@ export default {
 
         reset(2, citys[lastProvince]);
       }
+      */
     }
   }
 }

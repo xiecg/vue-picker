@@ -36,6 +36,13 @@
 	}
 }
 
+.picker-top-content, .picker-bottom-content{
+	display: flex;
+	width: 100%;
+	background-color: #fff;
+	justify-content: center;
+}
+
 @component-namespace picker {
 	@component backdrop {
 		position: fixed 0 * * 0;
@@ -121,7 +128,7 @@
 	<transition name="picker">
 		<div class="picker-backdrop" v-show="value" @click="close">
 			<div class="picker-wrapper">
-				<slot class="top-content" name="top-content"></slot>
+				<slot class="picker-top-content" name="top-content"></slot>
 				<div class="picker-content">
 					<div class="picker-body">
 						<picker-item @change="onChangeValue" v-for="(item, index) in dataItems" 
@@ -130,12 +137,13 @@
 							:all-values="item.values" 
 							:values="item.$value" 
 							:length="item.values.length - 1" 
+							:maxScrollValue="item.maxScrollValue"
 							:keyName="item.key"
-							:style="[item.width, item.flex]"></picker-item>
+							:style="item.style"></picker-item>
 					</div>
 					<div class="picker-helper"></div>
 				</div>
-				<slot class="bottom-content" name="bottom-content"></slot>
+				<slot class="picker-bottom-content" name="bottom-content"></slot>
 			</div>
 		</div>
 	</transition>
@@ -159,10 +167,10 @@
 			for(let i = 0; i < 20; i++) {
 				let n = 19 - i;
 				let item = null;
-				if (typeof value[i] == 'string') {
-					item = value[n] || '';
+				if (typeof value[n] == 'object') {
+					item = value[n] && typeof value[n][key] !== 'undefined' ? value[n][key] : '';
 				} else {
-					item = value[n] && value[n][key] || '';
+					item = typeof value[n] !== 'undefined' ? value[n] : '';
 				}
 				html = `<div><span data-index="${n}">${item}</span>${html}</div>`;
 			}
@@ -175,10 +183,10 @@
 			let length = spenEl.length;
 			for(let i = 0; i < length; i++) {
 				let item = null;
-				if (typeof value[i] == 'string') {
-					item = value[i] || '';
+				if (typeof value[i] == 'object') {
+					item = value[i] && typeof value[i][key] !== 'undefined' ? value[i][key] : '';
 				} else {
-					item = value[i] && value[i][key] || '';
+					item = typeof value[i] !== 'undefined' ? value[i] : '';
 				}
 				spenEl[i].innerHTML = item;
 			}
@@ -218,30 +226,36 @@
 			onChangeValue (itemIndex, result, isSend) {
 				if (isSend) {
 					this.result[itemIndex] = result;
-					this.$emit('change', [...this.result]);
+					this.$emit('change', this.result);
 				} else {
 					this.result[itemIndex] = result;
 				}
+			},
+			init (n) {
+				Vue.set(n, 'key', n.name );
+				if (n.width) {
+					let width = { 'width' : n.width }
+					Vue.set(n, 'style', [width, this.flex] );
+				}
+				if (! n.maxScrollValue) {
+					Vue.set(n, 'maxScrollValue', n.values.length);
+				}
+
+				n.$value = n.values.slice(0, 15);
 			}
 		},
 		watch: {
+			dataItems (newDataItems) {
+				newDataItems.forEach(this.init);
+			},
 			value (result) {
 				if (! result) return;
-				this.$emit('change', [...this.result]);
+				this.$emit('change', this.result);
 			}
 		},
 		created () {
-			this.dataItems.forEach((n) => {
-				if (n.width) {
-					n.flex = this.flex;
-					n.width = { width: n.width }
-				}
-				n.key = n.name;
-				n.$value = n.values.slice(0, 15);
-			});
+			this.dataItems.forEach(this.init);
 		},
-		mounted () {
-
-		}
+		mounted () {}
 	}
 </script>

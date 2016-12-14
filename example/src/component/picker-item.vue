@@ -34,6 +34,9 @@
 			keyName: {
 				type: String,
 				default: 'name'
+			},
+			maxScrollValue: {
+				type: Number
 			}
 		},
 		data () {
@@ -43,6 +46,7 @@
 				scrollValue: 0,
 				maxVelocity: 6,
 				currentValues: this.values,
+				currentMaxScrollValue: this.maxScrollValue,
 				baseScrollValue: 0,
 				firstTimeRequest: true,
 				poolData: [],
@@ -91,8 +95,8 @@
 				now = now > this.length ? this.length : now;
 				dis = now * 18 - this.scrollValue;
 				dis = this.scrollValue + dis;
-
-				this.maxMomentumValue = this.length * 18;
+				
+				this.maxMomentumValue = (this.currentMaxScrollValue - 1) * 18;
 
 				let boundValue = null;
 
@@ -141,7 +145,7 @@
 				}
 			},
 			onScroll (value, oldValue) {
-				
+
 				this.setAlpha(value);
 
 				this.currentIndex = Math.round(value / 18);
@@ -285,11 +289,42 @@
 			}
 		},
 		watch: {
+			allValues (newAllValues) {
+				this.setAlpha(0);
+				this.scrollValue = 0;
+				this.firstTimeRequest = true;
+				this.baseScrollValue = 0;
+				this.firstTimeRequest = true;
+				this.poolData = [];
+				this.count = 0;
+				this.requestStart = 0;
+				this.currentIndex = 0;
+				this.currentValues = newAllValues.slice(0, 15);
+				this.lastValues = this.currentValues;
+				this.currentMaxScrollValue = newAllValues.length;
+			},
 			currentIndex (newIndex, oldIndex) {
 				let result = this.allValues[newIndex];
 				if (result) {
 					this.$emit('change', this.itemIndex, result, this.isSend);
 				}
+			},
+			maxScrollValue (newValue, oldValue) {
+				newValue = newValue - 1;
+				if (newValue > this.currentIndex) {
+					return;
+				}
+				this.bounceHelper.stop();
+				this.bounce.stop();
+				this.boundMomentum.stop();
+
+				this.bounceHelper.setConfig({
+					startTime: Date.now(),
+					startValue: this.scrollValue,
+					endValue: newValue * 18
+				});
+
+				this.bounceHelper.run();
 			}
 		}
 	}

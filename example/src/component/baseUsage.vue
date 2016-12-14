@@ -5,8 +5,8 @@
     <h1 @click="visible3 = true">width</h1>
     <picker v-model="visible1" :data-items="baseItems" @change="onBaseValuesChange"></picker>
     <picker v-model="visible2" :data-items="slotItems">
-        <div class="top-content" slot="top-content">Top of the content.</div>
-        <div class="bottom-content" slot="bottom-content">Bottom of the content.</div>
+        <div class="picker-top-content" slot="top-content">Top of the content.</div>
+        <div class="picker-bottom-content" slot="bottom-content">Bottom of the content.</div>
     </picker>
     <picker v-model="visible3" :data-items="widthItems"></picker>
   </div>

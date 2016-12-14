@@ -83,54 +83,51 @@ export default {
             lastDesc = dayDesc[thisHour < 12 ? 0 : 1];
 
         this.thisYear = thisYear;
-
         return {
             dateItems: [{
                 name: 'value',
-                values: generateYearData(thisYear)
+                values: generateYearData(thisYear),
+                // maxScrollValue: null
             },{
                 name: 'name',
                 index: thisMonth - 1,
-                values: months
+                values: months,
             },{
+                 name: 'name',
                 index: thisDate - 1,
-                values: dates
+                values: dates,
+                // maxScrollValue: null
             },{
                 index: thisHour < 12 ? 0 : 1,
-                values: dayDesc
+                values: dayDesc,
+                // maxScrollValue: null
             }],
             visible: false
         }
-        // return {
-        //     dateItems: [{
-        //         name: 'name',
-        //         // width: '80%',
-        //         index: thisDate - 1,
-        //         values: dates
-        //     },{
-        //         // width: '20%',
-        //         values: [{
-        //             name: '1'
-        //         },{
-        //             name: '2'
-        //         }]
-        //     }],
-        //     visible: false
-        // }
     },
 
-    mounted () {},
+    mounted () {
+    },
 
     methods : {
 
         getMaxDate (year, month) {
-
-            return (new Date(new Date(year, month + 1, 1) - 1)).getDate();
+            return (new Date(new Date(year, month, 1) - 1)).getDate();
         },
 
-        onDateValuesChange (result) {
-            console.log('user ----->', result)
-            return;
+        onDateValuesChange (result, pickerEl) {
+            
+            let year = result[0].value;
+            let month = result[1].name;
+            let date = result[2].name;
+            let desc = result[3];
+
+            var maxDate = this.getMaxDate(parseInt(year), parseInt(month));
+                
+            this.dateItems[2].maxScrollValue = maxDate;
+
+            console.log('user ----->', year, month, date, desc);
+            /*
             let year = result[0], month = result[1], date = result[2], desc = result[3];
 
             let lastYear = parseInt(year ? year.value : this.thisYear);
@@ -139,13 +136,13 @@ export default {
             let lastDesc = desc ? desc : 0;
 
             let maxDate = this.getMaxDate(lastYear, lastMonth - 1);
-            
+            // console.log(lastDate, maxDate)
             if (lastDate > maxDate) {
 
                 pickerEl.value3 = maxDate;
             }
-
             // console.log(lastYear, lastMonth, lastDate, lastDesc);
+            */
         }
     }
 }

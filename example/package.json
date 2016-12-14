@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "vue": "^2.0.3",
+    "vue-touch": "git://github.com/vuejs/vue-touch.git#next",
     "vue-3d-picker": "^1.0.8",
     "vue-resource": "^1.0.3",
     "vue-router": "^2.0.0"
