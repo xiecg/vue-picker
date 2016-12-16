@@ -59,24 +59,10 @@ export default {
     
     onCityValuesChange (result) {
       let province = result[0], city = result[1].name;
-      // console.log(province, city.name);
-      // console.log(this.citys[province]);
-
+      this.cityItems[1].width = '60%';
       this.cityItems[1].values = this.citys[province];
-      console.log(province, city);
-      /*
-      let thisProvince = province ? province : lastProvince,
-          thisCity = city ? city : citys[lastProvince][0];
-
-      this.text = `${thisProvince}, ${thisCity.name}`;
-
-      if (lastProvince !== thisProvince) {
-
-        lastProvince = thisProvince;
-
-        reset(2, citys[lastProvince]);
-      }
-      */
+      this.text = `${province}, ${city}`;
+      // console.log(province, city);
     }
   }
 }

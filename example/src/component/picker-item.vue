@@ -1,5 +1,4 @@
-<style>
-</style>
+<style></style>
 
 <template>
 	<div class="picker-item" v-touch:panstart="onPanStart" v-touch:panmove="onPanMove" v-touch:panend="onPanEnd">
@@ -85,18 +84,8 @@
 				} else if (velocity > maxVelocity) {
 					velocity = maxVelocity;
 				}
-
-				let speed = velocity * 80;
-				let target = -(speed + (-this.scrollValue));
-				let now = Math.round(target / 18);
-				let dis = 0;
-
-				now = now < 0 ? 0 : now;
-				now = now > this.length ? this.length : now;
-				dis = now * 18 - this.scrollValue;
-				dis = this.scrollValue + dis;
 				
-				this.maxMomentumValue = (this.currentMaxScrollValue - 1) * 18;
+				this.maxMomentumValue = (this.maxScrollValue - 1) * 18;
 
 				let boundValue = null;
 
@@ -297,11 +286,12 @@
 				this.firstTimeRequest = true;
 				this.poolData = [];
 				this.count = 0;
-				this.requestStart = 0;
 				this.currentIndex = 0;
+				this.requestStart = 0;
 				this.currentValues = newAllValues.slice(0, 15);
 				this.lastValues = this.currentValues;
 				this.currentMaxScrollValue = newAllValues.length;
+				this.$emit('change', this.itemIndex, newAllValues[0], true);
 			},
 			currentIndex (newIndex, oldIndex) {
 				let result = this.allValues[newIndex];

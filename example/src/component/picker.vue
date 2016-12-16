@@ -119,6 +119,7 @@
 			display: block;
 			line-height: 36px;
 			backface-visibility: hidden;
+			@utils-ellipsis 1;
 		}
 	}
 }
@@ -236,6 +237,7 @@
 				if (n.width) {
 					let width = { 'width' : n.width }
 					Vue.set(n, 'style', [width, this.flex] );
+					Vue.set(n, 'width', n.width );
 				}
 				if (! n.maxScrollValue) {
 					Vue.set(n, 'maxScrollValue', n.values.length);
@@ -251,6 +253,9 @@
 			value (result) {
 				if (! result) return;
 				this.$emit('change', this.result);
+			},
+			width (newValue) {
+				console.log('width', newValue);
 			}
 		},
 		created () {

@@ -115,7 +115,7 @@ export default {
             return (new Date(new Date(year, month, 1) - 1)).getDate();
         },
 
-        onDateValuesChange (result, pickerEl) {
+        onDateValuesChange (result) {
             
             let year = result[0].value;
             let month = result[1].name;
