@@ -3,8 +3,8 @@ import App from './App.vue';
 import VueRouter from "vue-router";
 import VueResource from 'vue-resource';
 
-import picker from './component/picker/picker.vue';
-// import picker from 'vue-3d-picker';
+// import picker from './component/picker/picker.vue';
+import picker from 'vue-3d-picker';
 
 Vue.component(picker.name, picker);
 
