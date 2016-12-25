@@ -102,7 +102,6 @@ export default {
             var maxDate = this.getMaxDate(parseInt(year), parseInt(month));
             
             this.dateItems[2].maxScrollValue = maxDate;
-
             console.log('user ----->', year, month, date, desc);
         }
     }
