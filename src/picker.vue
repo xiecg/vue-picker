@@ -263,7 +263,6 @@
 		},
 		created () {
 			this.dataItems.forEach(this.init);
-		},
-		mounted () {}
+		}
 	}
 </script>

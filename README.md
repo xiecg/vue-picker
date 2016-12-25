@@ -4,7 +4,7 @@
 
 # Overview
 
-The picker component based on vue.js #next
+The picker component based on vue.js
 
 # DEMO
 
@@ -36,7 +36,7 @@ Vue.component(picker.name, picker);
 ```JavaScript
 export default {
   methods: {
-    onValuesChange(result1, result2 ... ) {
+    onValuesChange(result1, result2, ... ) {
       console.log(result1, result2)
     }
   },
