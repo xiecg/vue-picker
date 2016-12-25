@@ -7,7 +7,8 @@
     "build": "cross-env NODE_ENV=production webpack --progress --hide-modules"
   },
   "dependencies": {
-    "vue": "^2.0.3",
+    "raf.js": "^0.0.4",
+    "vue": "^2.1.7",
     "vue-3d-picker": "^1.0.8",
     "vue-resource": "^1.0.3",
     "vue-router": "^2.0.0",
@@ -26,7 +27,9 @@
     "css-loader": "^0.16.0",
     "file-loader": "^0.9.0",
     "node-sass": "^3.10.1",
+    "postcss": "^5.2.6",
     "postcss-loader": "^1.0.0",
+    "postcss-salad": "^1.0.5",
     "sass-loader": "^3.2.0",
     "style-loader": "^0.13.1",
     "vue-loader": "^9.5.1",

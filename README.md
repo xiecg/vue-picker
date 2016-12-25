@@ -1,5 +1,6 @@
-[Postcss]: https://github.com/postcss/postcss-loader
+[postcss-salad]: https://github.com/ElemeFE/postcss-salad
 [Picker]: https://xiecg.github.io/2016/10/23/vue-picker/
+[vue-picker]: https://xiecg.github.io/other/vue-picker/#/baseUsage
 
 # Overview
 
@@ -7,11 +8,7 @@ The picker component based on vue.js
 
 # DEMO
 
-<img src="http://ocm0knkb1.bkt.clouddn.com/demo.gif" width="300px">
-
-<br/>
-
-<img src="https://xiecg.github.io/other/vue-picker/code.png">
+[vue-picker]
 
 # Install
 
@@ -39,14 +36,10 @@ Vue.component(picker.name, picker);
 ```JavaScript
 export default {
   methods: {
-    onValuesChange(result, pickerEl, reset) {
-      let year = result[0], month = result[1];
-      // result -> The selected data.
-      // pickerEl -> The set of methods.
-      // reset -> Reset the item data.  usage: reset(index, newData)
+    onValuesChange(result1, result2, ... ) {
+      console.log(result1, result2)
     }
   },
-
   data() {
     return {
       visible: true,
@@ -81,6 +74,7 @@ Picker Items Options:
 | values | values of this item. | Array | [] |
 | width | The width of the item. The unit is %.| String | 'flex' |
 | name | If values is an object. set the displayed key.| String | 'value' |
+| maxScrollValue | The maximum value for scrolling.| Number | values.length |
 
 # example
 
@@ -94,7 +88,7 @@ npm run dev
 
 # prompt
 
-Need [Postcss] support
+Need [postcss-salad] support
 
 # 中文
 
