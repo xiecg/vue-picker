@@ -26,15 +26,16 @@ export default {
 
 </script>
 
-<style lang="sass">
+<style>
 
+  * {
+    box-sizing: border-box;
+  }
   .view-wrapper ul {
-
     padding: 0;
     display: flex;
     list-style-type: none;
     justify-content: space-between;
-
     a {
       color: #000000;
     }

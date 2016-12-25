@@ -1,7 +1,7 @@
 <template>
 
   <div>
-    <h1 @click="visible = true">{{prompt}}</h1>
+    <h1 v-touch:tap="open">{{prompt}}</h1>
     <p>{{text}}</p>
     <picker v-model="visible" :data-items="cityItems" @change="onCityValuesChange"></picker>
   </div>
@@ -56,13 +56,13 @@ export default {
 
   },
   methods: {
-    
-    onCityValuesChange (result) {
-      let province = result[0], city = result[1].name;
-      this.cityItems[1].width = '60%';
+    open () {
+      this.visible = true;
+    },
+    onCityValuesChange (province, city) {
+      city = city.name;
       this.cityItems[1].values = this.citys[province];
       this.text = `${province}, ${city}`;
-      // console.log(province, city);
     }
   }
 }

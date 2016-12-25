@@ -32,7 +32,7 @@
 			},
 			keyName: {
 				type: String,
-				default: 'name'
+				default: 'value'
 			},
 			maxScrollValue: {
 				type: Number
@@ -85,7 +85,7 @@
 					velocity = maxVelocity;
 				}
 				
-				this.maxMomentumValue = (this.maxScrollValue - 1) * 18;
+				this.maxMomentumValue = (this.currentMaxScrollValue - 1) * 18;
 
 				let boundValue = null;
 
@@ -241,7 +241,6 @@
 					if (! boundMomentum.isOutOfBound && result) {
 						animationScrollValueHelper();
 					}
-
 					return result;
 				}
 
@@ -300,6 +299,7 @@
 				}
 			},
 			maxScrollValue (newValue, oldValue) {
+				this.currentMaxScrollValue = newValue;
 				newValue = newValue - 1;
 				if (newValue > this.currentIndex) {
 					return;
@@ -315,6 +315,22 @@
 				});
 
 				this.bounceHelper.run();
+			},
+			index (newIndex, oldIndex) {
+				let targetValue = newIndex * 18;
+				let currentValue = this.scrollValue;
+				this.isSend = true;
+				if (this.scrollValue > targetValue) {
+					for(let i = currentValue; i >= targetValue; i-=18) {
+						this.onScroll(i, this.scrollValue);
+						this.scrollValue = i;
+					}
+				} else {
+					for(let i = currentValue; i <= targetValue; i+=18) {
+						this.onScroll(i, this.scrollValue);
+						this.scrollValue = i;
+					}
+				}
 			}
 		}
 	}

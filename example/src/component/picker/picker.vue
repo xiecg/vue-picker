@@ -36,6 +36,10 @@
 	}
 }
 
+.picker-enter, .picker-leave-active {
+	opacity: 0;
+}
+
 .picker-top-content, .picker-bottom-content{
 	display: flex;
 	width: 100%;
@@ -45,7 +49,7 @@
 
 @component-namespace picker {
 	@component backdrop {
-		position: fixed 0 * * 0;
+		position: absolute 0 * * 0;
 		size: 100%;
 		background: rgba(0, 0, 0, 0.5);
 		z-index: 999;
@@ -57,6 +61,7 @@
 		width: 100%;
 		background: transparent;
 		transform: translate3d(0px, 0px, 0px);
+		z-index: 9999;
 	}
 	@component content {
 		position: relative;
@@ -127,7 +132,7 @@
 
 <template>
 	<transition name="picker">
-		<div class="picker-backdrop" v-show="value" @click="close">
+		<div class="picker-backdrop" v-show="value" v-touch:tap="onClose">
 			<div class="picker-wrapper">
 				<slot class="picker-top-content" name="top-content"></slot>
 				<div class="picker-content">
@@ -151,6 +156,8 @@
 </template>
 
 <script>
+
+	import 'raf.js';
 
 	import Vue from 'vue';
 
@@ -215,11 +222,12 @@
 			},
 			dataItems: {
 				type: Array
-			}
+			},
+			callbackArg: {}
 		},
 		methods : {
-			close (...initialArgs) {
-				let e = initialArgs[0];
+			onClose (... arg) {
+				let e = arg[0];
 				if (e.target && e.target.classList.contains('picker-backdrop')) {
 					this.$emit('input', false);
 				}
@@ -227,7 +235,7 @@
 			onChangeValue (itemIndex, result, isSend) {
 				if (isSend) {
 					this.result[itemIndex] = result;
-					this.$emit('change', this.result);
+					this.$emit('change', ...this.result, this.callbackArg);
 				} else {
 					this.result[itemIndex] = result;
 				}
@@ -237,12 +245,10 @@
 				if (n.width) {
 					let width = { 'width' : n.width }
 					Vue.set(n, 'style', [width, this.flex] );
-					Vue.set(n, 'width', n.width );
 				}
 				if (! n.maxScrollValue) {
 					Vue.set(n, 'maxScrollValue', n.values.length);
 				}
-
 				n.$value = n.values.slice(0, 15);
 			}
 		},
@@ -252,10 +258,7 @@
 			},
 			value (result) {
 				if (! result) return;
-				this.$emit('change', this.result);
-			},
-			width (newValue) {
-				console.log('width', newValue);
+				this.$emit('change', ...this.result, this.callbackArg);
 			}
 		},
 		created () {

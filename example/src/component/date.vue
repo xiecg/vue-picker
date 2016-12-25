@@ -2,7 +2,7 @@
 
     <div id="firstcomponent">
 
-        <h1 @click="visible = true">open</h1>
+        <h1 v-touch:tap="open">open</h1>
 
         <picker v-model="visible" :data-items="dateItems" @change="onDateValuesChange"></picker>
 
@@ -13,59 +13,42 @@
 <script type="text/javascript">
 
 export default {
-
     data () {
 
         let formatTwoDigitInteger = (value) => {
-
             value = value.toString();
-
             return (value.length === 1 ? '0' : '') + value;
         };
 
         let generateYearData = (thisYear) => {
-
             var result = [],
                 i = thisYear,
                 end = thisYear+80;
-
             for(; i < end; i++) {
-                
                 result.push({
                     value: formatTwoDigitInteger(i) + '年'
                 });
             }
-
             return result;
         };
 
         let generateMonthData = () => {
-
-            var result = [],
-                i = 1;
-
+            var result = [], i = 1;
             for (; i < 13; ++i) {
-
                 result.push({
                     name: formatTwoDigitInteger(i) + '月'
                 });
             }
-
             return result;
         };
 
         let generateDateData = () => {
-
-            var result = [],
-                i = 1;
-
+            var result = [], i = 1;
             for (; i < 32; ++i) {
-
                 result.push({
                     name: formatTwoDigitInteger(i) + '日'
                 });
             }
-
             return result;
         };
 
@@ -87,7 +70,6 @@ export default {
             dateItems: [{
                 name: 'value',
                 values: generateYearData(thisYear),
-                // maxScrollValue: null
             },{
                 name: 'name',
                 index: thisMonth - 1,
@@ -96,53 +78,32 @@ export default {
                  name: 'name',
                 index: thisDate - 1,
                 values: dates,
-                // maxScrollValue: null
             },{
                 index: thisHour < 12 ? 0 : 1,
                 values: dayDesc,
-                // maxScrollValue: null
             }],
             visible: false
         }
     },
-
     mounted () {
     },
-
     methods : {
-
+        open () {
+            this.visible = true;
+        },
         getMaxDate (year, month) {
             return (new Date(new Date(year, month, 1) - 1)).getDate();
         },
-
-        onDateValuesChange (result) {
-            
-            let year = result[0].value;
-            let month = result[1].name;
-            let date = result[2].name;
-            let desc = result[3];
+        onDateValuesChange (year, month, date, desc) {
+            year = year.value;
+            month = month.name;
+            date = date.name;
 
             var maxDate = this.getMaxDate(parseInt(year), parseInt(month));
             
             this.dateItems[2].maxScrollValue = maxDate;
 
             console.log('user ----->', year, month, date, desc);
-            /*
-            let year = result[0], month = result[1], date = result[2], desc = result[3];
-
-            let lastYear = parseInt(year ? year.value : this.thisYear);
-            let lastMonth = month ? month.$key : 0;
-            let lastDate = date ? date.$key : 0;
-            let lastDesc = desc ? desc : 0;
-
-            let maxDate = this.getMaxDate(lastYear, lastMonth - 1);
-            // console.log(lastDate, maxDate)
-            if (lastDate > maxDate) {
-
-                pickerEl.value3 = maxDate;
-            }
-            // console.log(lastYear, lastMonth, lastDate, lastDesc);
-            */
         }
     }
 }
