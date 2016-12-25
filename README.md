@@ -1,6 +1,6 @@
 [postcss-salad]: https://github.com/ElemeFE/postcss-salad
 [Picker]: https://xiecg.github.io/2016/10/23/vue-picker/
-[vue-picker]: https://xiecg.github.io/other/vue-picker/#/baseUsage
+[vue-picker]: https://xiecg.github.io/other/vue-picker/#/date
 
 # Overview
 
