@@ -8,9 +8,9 @@ module.exports = {
         publicPath: '/dist/',
         filename: 'build.js'
     },
-    resolveLoader: {
-        root: path.join(__dirname, 'node_modules'),
-    },
+    // resolveLoader: {
+    //     root: path.join(__dirname, 'node_modules'),
+    // },
     module: {
         loaders: [{
             test: /\.vue$/,
@@ -18,7 +18,7 @@ module.exports = {
         }, {
             test: /\.js$/,
             loader: 'babel',
-            include: path.resolve(__dirname, './src'),
+            // include: path.resolve(__dirname, './src'),
             exclude: /node_modules/
         }, {
             test: /\.css$/,
@@ -48,10 +48,10 @@ module.exports = {
             return [require('postcss-salad')];
         }
     },
-    babel: {
-        presets: ['es2015'],
-        plugins: ['transform-runtime']
-    },
+    // babel: {
+    //     presets: ['es2015'],
+    //     plugins: ['transform-runtime']
+    // },
     resolve: {
         alias: { vue: 'vue/dist/vue.js' }
     },

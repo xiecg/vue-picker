@@ -1,2 +1,1 @@
-import Picker from './picker.vue';
-module.exports = Picker;
+module.exports = require('./picker.vue');
