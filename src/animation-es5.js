@@ -469,4 +469,3 @@ module.exports = {
     MomentumEasing: MomentumEasing,
     BoundMomentumEasing: BoundMomentumEasing
 }
-
