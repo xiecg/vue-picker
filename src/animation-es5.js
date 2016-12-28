@@ -463,11 +463,10 @@ var BoundMomentumEasing = (function (_Easing4) {
     return BoundMomentumEasing;
 })(Easing);
 
-
 module.exports = {
-    EaseOutEasing,
-    BounceEasing,
-    MomentumEasing,
-    BoundMomentumEasing
+    EaseOutEasing: EaseOutEasing,
+    BounceEasing: BounceEasing,
+    MomentumEasing: MomentumEasing,
+    BoundMomentumEasing: BoundMomentumEasing
 }
 
