@@ -1,6 +1,6 @@
 {
   "name": "vue-3d-picker",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "The picker component based on vue.js.",
   "main": "src/index.js",
   "scripts": {
