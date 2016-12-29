@@ -6,13 +6,11 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "devDependencies": {
-    "postcss-loader": "^1.2.1",
-    "postcss-salad": "^1.0.6"
-  },
   "dependencies": {
     "raf.js": "^0.0.4",
-    "vue-touch": "git://github.com/vuejs/vue-touch.git#next"
+    "vue-touch": "git://github.com/vuejs/vue-touch.git#next",
+    "postcss-loader": "^1.2.1",
+    "postcss-salad": "^1.0.6"
   },
   "repository": {
     "type": "git",
