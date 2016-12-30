@@ -55,7 +55,7 @@
 		z-index: 999;
 	}
 	@component wrapper {
-		position: absolute;
+		position: fixed;
 		left: 0;
 		bottom: 0;
 		width: 100%;
