@@ -2,7 +2,7 @@
 
     <div id="firstcomponent">
 
-        <h1 v-touch:tap="open">open</h1>
+        <touch tag="h1" v-on:tap="open">open</touch>
 
         <picker v-model="visible" :data-items="dateItems" @change="onDateValuesChange"></picker>
 

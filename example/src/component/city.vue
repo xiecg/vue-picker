@@ -1,7 +1,7 @@
 <template>
 
   <div>
-    <h1 v-touch:tap="open">{{prompt}}</h1>
+    <touch tag="h1" v-on:tap="open">{{prompt}}</touch>
     <p>{{text}}</p>
     <picker v-model="visible" :data-items="cityItems" @change="onCityValuesChange"></picker>
   </div>

@@ -3,7 +3,7 @@
     <h1 @click="visible1 = true">base</h1>
     <h1 @click="visible2 = true">slot</h1>
     <h1 @click="visible3 = true">width</h1>
-    <h1 v-touch:tap="open">{{indexText}}</h1>
+    <touch tag="h1" v-on:tap="open">{{indexText}}</touch>
     <picker v-model="visible1" :data-items="baseItems" @change="onBaseValuesChange"></picker>
     <picker v-model="visible2" :data-items="slotItems">
         <div class="picker-top-content" slot="top-content">Top of the content.</div>

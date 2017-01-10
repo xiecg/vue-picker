@@ -1,9 +1,9 @@
 <style></style>
 
 <template>
-	<div class="picker-item" v-touch:panstart="onPanStart" v-touch:panmove="onPanMove" v-touch:panend="onPanEnd">
+	<touch class="picker-item" v-on:panstart="onPanStart" v-on:panmove="onPanMove" v-on:panend="onPanEnd">
 		<div ref="pickerItemContent" :style="{ transform: 'rotateX('+ scrollValue +'deg)' }" class="picker-item-content" v-for-nested="[currentValues, keyName]"></div>
-	</div>
+	</touch>
 </template>
 
 <script>

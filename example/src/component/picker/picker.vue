@@ -132,7 +132,7 @@
 
 <template>
 	<transition name="picker">
-		<div class="picker-backdrop" v-show="value" v-touch:tap="onClose">
+		<touch class="picker-backdrop" v-show="value" v-on:tap="onClose">
 			<div class="picker-wrapper">
 				<slot class="picker-top-content" name="top-content"></slot>
 				<div class="picker-content">
@@ -151,7 +151,7 @@
 				</div>
 				<slot class="picker-bottom-content" name="bottom-content"></slot>
 			</div>
-		</div>
+		</touch>
 	</transition>
 </template>
 
@@ -165,7 +165,7 @@
 
 	import pickerItem from './picker-item.vue';
 
-	Vue.use(VueTouch);
+	Vue.use(VueTouch, { name: 'touch' });
 	
 	Vue.directive('for-nested', {
 		bind (el, binding) {
@@ -263,7 +263,6 @@
 		},
 		created () {
 			this.dataItems.forEach(this.init);
-		},
-		mounted () {}
+		}
 	}
 </script>
