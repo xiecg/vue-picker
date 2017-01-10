@@ -9,7 +9,7 @@
   "dependencies": {
     "raf.js": "^0.0.4",
     "vue": "^2.1.7",
-    "vue-3d-picker": "^2.0.0",
+    "vue-3d-picker": "^2.0.5",
     "vue-resource": "^1.0.3",
     "vue-router": "^2.0.0"
   },
