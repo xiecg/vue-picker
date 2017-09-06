@@ -8,9 +8,7 @@
   },
   "dependencies": {
     "raf.js": "^0.0.4",
-    "vue-touch": "git://github.com/vuejs/vue-touch.git#next",
-    "postcss-loader": "^1.2.1",
-    "postcss-salad": "^1.0.6"
+    "vue-touch": "git://github.com/vuejs/vue-touch.git#next"
   },
   "repository": {
     "type": "git",
