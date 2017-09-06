@@ -1,38 +1,22 @@
-import Vue from 'vue';
-import App from './App.vue';
-import VueRouter from "vue-router";
+// The Vue build version to load with the `import` command
+// (runtime-only or standalone) has been set in webpack.base.conf with an alias.
+import Vue from 'vue'
+import App from './App'
+import router from './router'
 import VueResource from 'vue-resource';
 
-import picker from 'vue-3d-picker';
-// import picker from './component/picker/index';
-
+// import picker from 'picker/index'
+import picker from '@/picker/index'
 Vue.component(picker.name, picker);
 
-Vue.use(VueRouter);
 Vue.use(VueResource);
 
-import baseUsage from './component/baseUsage.vue';
-import date from './component/date.vue';
-import city from './component/city.vue';
+Vue.config.productionTip = false
 
-const router = new VueRouter({
-  routes: [
-    {
-      path: '/baseUsage',
-      component: baseUsage
-    },
-    {
-      path: '/date',
-      component: date
-    },
-    {
-      path: '/city',
-      component: city
-    }
-  ]
+/* eslint-disable no-new */
+new Vue({
+  el: '#app',
+  router,
+  template: '<App/>',
+  components: { App }
 })
-
-const app = new Vue({
-  router: router,
-  render: render => render(App)
-}).$mount('#app')

@@ -1,44 +1,46 @@
 <template>
-  <div class="view-wrapper">
+  <div id="app">
     <ul>
-      <li><router-link to="/baseUsage">baseUsage</router-link></li>
-      <li><router-link to="/date">date</router-link></li>
-      <li><router-link to="/city">city</router-link></li>
+      <li><router-link to="/BaseUsage">baseUsage</router-link></li>
+      <li><router-link to="/Date">date</router-link></li>
+      <li><router-link to="/City">city</router-link></li>
     </ul>
     <router-view class="view"></router-view>
   </div>
 </template>
 
 <script>
-
-import baseUsage from './component/baseUsage.vue';
-
-import date from './component/date.vue';
-
-import city from './component/city.vue';
-
 export default {
-  data () {
-    return {}
-  },
-  components: { baseUsage, date, city}
+  name: 'app'
 }
-
 </script>
 
 <style>
+* {
+  -webkit-tap-highlight-color:transparent;
+}
+#app {
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 30px;
+}
+#app ul {
+  padding: 0;
+  width: 100%;
+  list-style-type: none;
+  display: flex;
+  justify-content: space-around;
+  align-content: center;
+}
+#app a {
+  font-size: 20px;
+  color: #2c3e50;
+}
 
-  * {
-    box-sizing: border-box;
-  }
-  .view-wrapper ul {
-    padding: 0;
-    display: flex;
-    list-style-type: none;
-    justify-content: space-between;
-    a {
-      color: #000000;
-    }
-  }
-
+.view {
+  margin-top: 30px;
+}
 </style>

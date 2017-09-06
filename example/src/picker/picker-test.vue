@@ -24,16 +24,16 @@
 
 .picker-enter-active {
 	animation: picker-open-backdrop 0.3s ease-out;
-	.picker-wrapper {
-		animation: picker-open 0.3s ease;
-	}
+}
+.picker-enter-active .picker-wrapper {
+	animation: picker-open 0.3s ease;
 }
 
 .picker-leave-active {
 	animation: picker-close-backdrop 0.3s ease-out;
-	.picker-wrapper {
-		animation: picker-close 0.3s ease;
-	}
+}
+.picker-leave-active .picker-wrapper {
+	animation: picker-close 0.3s ease;
 }
 
 .picker-enter, .picker-leave-active {
@@ -47,86 +47,97 @@
 	justify-content: center;
 }
 
-@component-namespace picker {
-	@component backdrop {
-		position: absolute 0 * * 0;
-		size: 100%;
-		background: rgba(0, 0, 0, 0.5);
-		z-index: 999;
-	}
-	@component wrapper {
-		position: absolute;
-		left: 0;
-		bottom: 0;
-		width: 100%;
-		background: transparent;
-		transform: translate3d(0px, 0px, 0px);
-		z-index: 9999;
-	}
-	@component content {
-		position: relative;
-		width: 100%;
-		height: 228px;
-		background: white;
-	}
-	@component body {
-		z-index: 1;
-		position: absolute;
-		width: 100%;
-		height: 100%;
-		display: flex;
-		flex-direction: row;
-		justify-content: center;
-	}
-	@component item {
-		font-size: 20px;
-		height: 100%;
-		position: relative;
-		display: flex;
-		flex: 1;
-	}
-	@component helper {
-		position: absolute;
-		size: 100%;
-		display: flex;
-		justify-content: center;
-		flex-direction: column;
-		&:before {
-			content: '';
-			width: 100%;
-			height: 38px;
-			border-top: 1px solid #adb0a7;
-			border-bottom: 1px solid #adb0a7;
-			display: flex;
-		}
-	}
-	@component item-content {
-		width: 100%;
-		height: 36px;
-		position: absolute 96px * * 0px;
-		transform-style: preserve-3d;
-		transform-origin: center center -113.64752726415074px;
-		div {
-			width: 100%;
-			position: absolute 36px * * 0;
-			transform-origin: top;
-			transform-style: preserve-3d;
-			transform: rotateX(-18deg);
-		}
-		>div {
-			top: 0;
-			transform: rotateX(0deg);
-		}
-		span {
-			width: 100%;
-			height: 36px;
-			text-align: center;
-			display: block;
-			line-height: 36px;
-			backface-visibility: hidden;
-			@utils-ellipsis 1;
-		}
-	}
+.picker-backdrop {
+	position: absolute 0 * * 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.5);
+	z-index: 999;
+}
+
+.picker-wrapper {
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+	background: transparent;
+	transform: translate3d(0px, 0px, 0px);
+	z-index: 9999;
+}
+
+.picker-content {
+	position: relative;
+	width: 100%;
+	height: 228px;
+	background: white;
+}
+
+.picker-body {
+	z-index: 1;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+}
+
+.picker-item {
+	font-size: 20px;
+	height: 100%;
+	position: relative;
+	display: flex;
+	flex: 1;
+}
+
+.picker-helper {
+	position: absolute;
+	size: 100%;
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+}
+.picker-helper:before {
+	content: '';
+	width: 100%;
+	height: 38px;
+	border-top: 1px solid #adb0a7;
+	border-bottom: 1px solid #adb0a7;
+	display: flex;
+}
+
+.picker-item-content {
+	width: 100%;
+	height: 36px;
+	position: absolute;
+	top: 96px;
+	left: 0px;
+	transform-style: preserve-3d;
+	transform-origin: center center -113.64752726415074px;
+}
+.picker-item-content div {
+	width: 100%;
+	position: absolute;
+	top: 36px;
+	top: 0px;
+	transform-origin: top;
+	transform-style: preserve-3d;
+	transform: rotateX(-18deg);
+}
+.picker-item-content>div {
+	top: 0;
+	transform: rotateX(0deg);
+}
+.picker-item-content span {
+	width: 100%;
+	height: 36px;
+	text-align: center;
+	display: block;
+	line-height: 36px;
+	backface-visibility: hidden;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 </style>
 
@@ -138,6 +149,7 @@
 				<div class="picker-content">
 					<div class="picker-body">
 						<picker-item @change="onChangeValue" v-for="(item, index) in dataItems" 
+							:key="index"
 							:itemIndex="index" 
 							:index="item.index" 
 							:all-values="item.values" 
