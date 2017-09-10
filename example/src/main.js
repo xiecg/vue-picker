@@ -5,8 +5,7 @@ import App from './App'
 import router from './router'
 import VueResource from 'vue-resource';
 
-import picker from './picker/index'
-// import picker from '@/picker/index'
+import picker from 'vue-3d-picker';
 Vue.component(picker.name, picker);
 
 Vue.use(VueResource);
