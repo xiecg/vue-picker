@@ -1,10 +1,10 @@
 <template>
   <div>
-    <h1 @click="visible1 = true">base</h1>
-    <h1 @click="visible2 = true">slot</h1>
-    <h1 @click="visible3 = true">width</h1>
+    <h1 class="base" @click="visible1 = true">base</h1>
+    <h1 class="slot" @click="visible2 = true">slot</h1>
+    <h1 class="width" @click="visible3 = true">width</h1>
     <touch tag="h1" v-on:tap="open">{{indexText}}</touch>
-    <picker v-model="visible1" :data-items="baseItems" @change="onBaseValuesChange"></picker>
+    <picker class="base-picker" v-model="visible1" :data-items="baseItems" @change="onBaseValuesChange"></picker>
     <picker v-model="visible2" :data-items="slotItems">
         <div class="picker-top-content" slot="top-content">Top of the content.</div>
         <div class="picker-bottom-content" slot="bottom-content">Bottom of the content.</div>
