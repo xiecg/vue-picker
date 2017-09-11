@@ -8,7 +8,7 @@
   },
   "dependencies": {
     "raf.js": "^0.0.4",
-    "vue-touch": "git://github.com/vuejs/vue-touch.git#next"
+    "vue-touch": "next"
   },
   "repository": {
     "type": "git",
